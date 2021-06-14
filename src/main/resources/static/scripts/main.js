@@ -59,7 +59,29 @@ const App = {
             }
         },
         upravit(id) {
-            this.detail = {...this.knihy[id]}
+            this.detail = {...this.knihy.find(kniha => kniha.id === id)}
+        },
+        async smazat(id) {
+            try {
+                const resp = await fetch(`/api/${id}`, {
+                    method: 'DELETE'
+                })
+                const data = await resp.json()
+                this.nacistSeznam()
+            } catch (e) {
+                alert(e)
+            }
+        },
+        async obnovit(id) {
+            try {
+                const resp = await fetch(`/api/${id}/obnovit`, {
+                    method: 'POST'
+                })
+                const data = await resp.json()
+                this.nacistSeznam()
+            } catch (e) {
+                alert(e)
+            }
         }
     },
     watch: {
@@ -99,7 +121,11 @@ const App = {
           <td>{{kniha.autor}}</td>
           <td>{{kniha.rokVydani}}</td>
           <td>{{kniha.isbn}}</td>
-          <td><button type="button" class="btn btn-outline-primary" @click="upravit(kniha.id)"><i class="bi-pencil-square"></i></button></td>
+          <td>
+            <button type="button" class="btn btn-outline-primary" @click="upravit(kniha.id)"><i class="bi-pencil-square"></i></button>
+            <button type="button" class="btn btn-outline-secondary" @click="smazat(kniha.id)"  v-if="!kniha.stornovano"><i class="bi-trash"></i></button>
+            <button type="button" class="btn btn-outline-secondary" @click="obnovit(kniha.id)"  v-if="kniha.stornovano"><i class="bi-recycle"></i></button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -120,7 +146,7 @@ const App = {
         <div class="row">
             <div class="col-6 mb-3">
                 <label for="rokVydani" class="form-label">Rok vydání</label>
-                <input type="number" class="form-control" id="rokVydani" min="1447" :max="aktualniRok" v-model="detail.rok">
+                <input type="number" class="form-control" id="rokVydani" min="1447" :max="aktualniRok" v-model="detail.rokVydani">
             </div>
             <div class="col-6 mb-3">
                 <label for="isbn" class="form-label">ISBN</label>

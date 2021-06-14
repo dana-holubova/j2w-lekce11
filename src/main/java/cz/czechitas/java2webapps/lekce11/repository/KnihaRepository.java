@@ -12,7 +12,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface KnihaRepository extends JpaRepository<Kniha, Long> {
 
+  /**
+   * Metoda pro běžné zobrazení, která nezobrazuje stornované záznamy.
+   */
   Page<Kniha> findByStornovanoFalseOrderByNazev(Pageable pageable);
 
+  /**
+   * Metoda, která zobrazuje všechny náznamy.
+   */
   Page<Kniha> findAllByOrderByNazev(Pageable pageable);
 }

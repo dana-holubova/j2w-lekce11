@@ -1,7 +1,19 @@
 ### Dávkově přidat knihy
+# Tři křížky oddělují jednotlivé požadavky
+# Je uvedena metoda (GET, POST atd.) a adresa, kterou chci volat.
+# Požadavky se spouští zelenou šipkou vlevo vedle požadavku. Výsledek se zobrazí v aplikaci v záložce Services.
+# Příkaz zavolá jednu ze služeb a předá jí data (viz JSON formát níže). Zavolá se controller, který je namapovaný na
+#uvedenou adresu
+# Následující dva řádky jsou zjednodušený formát zápisu http požadavků a odpovědí. Content-type je hlavička
+#(text + hodnota, tj. mapa). Content-Type: application/json = data, která odesílám, jsou ve formátu JSON. Podle toho
+# Spring pozná, co s daty má dělat. Bude to parsovat jako JSON a naplní je do parametrů v controlleru.
 POST http://localhost:8080/api/batch
 Content-Type: application/json
 
+# Pozor - mezi hlavičkou a tělem požadavku musí být prázdný řádek
+# Objekty jsou ve složených závorkách. V každém objektu jsou dvojice klíč-hodnota.
+# Objekty mohou obsahovat různý počet/složení dvojic klíč-hodnota.
+# Pole je označeno hranatými závorkami.
 [
   {
     "nazev": "Devatero pohádek",
@@ -35,3 +47,111 @@ Content-Type: application/json
 ]
 
 ###
+# Umí to zobrazit i html, ale není to moc užitečné. Vrátí se webová stránka včetně hlavičky s odpovědí od serveru (viz
+# Chrome F12 -> Network -> vybrat soubor -> Headers -> Response Headers
+GET http://localhost:8080
+
+###
+# /api na konci způsobí, že se zavolá controller (KnihaController), který je namapovaný na adresu /api. Bude se volat
+# metoda index. Po zavolání požadavku (např. GET http://localhost:8080/api) se vrátí objekt ve formátu JSON.
+# Metodu normálně volá Javascript (resources/static/scripts/main.js), který naprogramuje, jak má zobrazení vypadat v
+# prohlížeči.
+GET http://localhost:8080/api
+
+###
+POST http://localhost:8080/api/batch
+
+###
+DELETE http://localhost:8080/api/smazat/3
+
+###
+POST http://localhost:8080/api/obnovit/5
+
+###
+PUT http://localhost:8080/api/upravit
+
+{
+  "id": 1,
+  "nazev": "Zkouška upravit",
+  "autor": "zkouška",
+  "rokVydani": 1987
+}
+
+###
+GET http://localhost:8080/api/detail/1
+
+###
+# Získám data o východu a západu slunce z jiné REST api
+GET https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400
+
+###
+# Uložím jednu knížku
+POST http://localhost:8080/api
+Content-Type: application/json
+
+{
+  "nazev": "Zkouška1",
+  "autor": "zkouška",
+  "rokVydani": 1987
+}
+
+###
+# Upravím jednu knížku
+PUT http://localhost:8080/api/upravit
+Content-Type: application/json
+
+{
+  "id": 3,
+  "nazev": "Zkouška"
+}
+
+###
+# Seznam všech knížek
+GET http://localhost:8080/api
+
+POST http://localhost:8080/api
+
+# Chci vědět detaily o jedné konkrétní knížce s id 891. Dostanu JSON s údaji o této knížce.
+GET http://localhost:8080/api/891
+
+#  Chci editovat jednu konkrétní knížku
+PUT http://localhost:8080/api/891
+
+# Chci smazat jeden záznam o konkrétní knížce
+DELETE http://localhost:8080/api/891
+
+# Chci vložit nový záznam a používám identifikátor, který přiřazuje klient (např. dlouhé náhodné řetězce)
+POST http://localhost:8080/api/dfge-gegegebaesogvheighb-sckkekd
+
+# Chci editovat existující záznam s konkréntním identifikátorem
+PUT http://localhost:8080/api/dfge-gegegebaesogvheighb-sckkekd
+
+# Nemusím mít vždy a adrese api. Chci seznam všech lidí.
+GET http://api.server.cz/peple
+
+# Chci údaje o konkrétní osobě s identifikátorem franta-novak (musí být jedinečný)
+GET http://api.server.cz/peple/franta-novak
+
+#Chci seznam telefonních čísel konkrétní osoby
+GET http://api.server.cz/peple/franta-jmeno/mobile
+
+# Detail konkrétního telefonního čísla od konkrétní osoby. Můžou tam být např. štítky s informacemi typu pracovní/soukromý
+GET http://api.server.cz/peple/franta-jmeno/mobile/12622498
+
+# Chci smazat konkrétní telefonní číslo
+DELETE http://api.server.cz/peple/franta-jmeno/mobile/12622498
+
+# Chci změnit konkrétní telefonní číslo
+PUT http://api.server.cz/peple/franta-jmeno/mobile/12622498
+
+# Chci přidat telefonní číslo do seznamu
+POST http://api.server.cz/peple/franta-jmeno/mobile
+
+
+
+
+
+
+
+
+
