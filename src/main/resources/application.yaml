@@ -1,6 +1,0 @@
-spring:
-  datasource:
-    url: jdbc:h2:file:./data/skola;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE;COLLATION=CZECH
-    driverClassName: org.h2.Driver
-    username: sa
-    password: ''
