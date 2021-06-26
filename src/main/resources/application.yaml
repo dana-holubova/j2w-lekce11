@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: lekce11
+  flyway:
+    locations: classpath:db/migration/{vendor}, classpath:db/migration/common
